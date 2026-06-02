@@ -1,0 +1,38 @@
+# =============================================================================
+# docker-compose.yml — CCTV IP Camera Simulator (Secured with Nginx)
+# =============================================================================
+# Usage:
+#   docker compose up --build -d     (build & start in background)
+#   docker compose down              (stop & remove)
+# =============================================================================
+
+services:
+
+  # ── Flask web dashboard ────────────────────────────────────────────────────
+  web:
+    build: .
+    container_name: cctv-simulator
+    # No host ports exposed — only reachable internally through Nginx
+    expose:
+      - "5000"
+    ports:
+      - "8554:8554"        # RTSP streams (TCP)
+      - "8554:8554/udp"    # RTSP streams (UDP)
+      - "9997:9997"        # MediaMTX REST API
+    volumes:
+      # Mount your local video file into the container's video directory
+      - /Users/ojayodon/Developer/cctv-simulator/test-video-tokyo-walking.mp4:/opt/cctv-simulator/videos/camera.mp4:ro
+    restart: unless-stopped
+
+  # ── Nginx reverse proxy (HTTP Basic Auth) ─────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: cctv-nginx
+    ports:
+      - "5050:80"          # Dashboard accessible at http://localhost:5050
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./.htpasswd:/etc/nginx/.htpasswd:ro
+    depends_on:
+      - web
+    restart: unless-stopped
