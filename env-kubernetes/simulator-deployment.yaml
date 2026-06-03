@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camera-simulator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cctv-sim
+  template:
+    metadata:
+      labels:
+        app: cctv-sim
+    spec:
+      containers:
+      - name: simulator-app
+        # This is the image you built locally in your earlier project
+        image: cctv-simulator:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5000
+        
+        # THE SENIOR SRE TOUCH: The Self-Healing Watchdog
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          # Check every 10 seconds. If it fails 3 times, kill and restart the pod.
+          periodSeconds: 10
+          failureThreshold: 3
+
+        # Mount the configuration file we uploaded earlier
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/cameras.conf
+          subPath: cameras.conf
+          
+      volumes:
+      - name: config-volume
+        configMap:
+          name: camera-config
