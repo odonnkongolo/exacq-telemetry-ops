@@ -42,6 +42,7 @@ RUN mkdir -p /opt/cctv-simulator/{configs,videos,logs,pids}
 
 # ---- 5. Copy project files ----
 WORKDIR /opt/cctv-simulator
+COPY camera.mp4          videos/camera.mp4
 COPY cameras.conf        configs/cameras.conf
 COPY generate_config.py  generate_config.py
 COPY start_cameras.sh    start_cameras.sh
