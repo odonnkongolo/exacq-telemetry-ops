@@ -9,7 +9,8 @@ spec:
     # This must match the label in your deployment exactly
     app: cctv-sim
   ports:
-    - protocol: TCP
+    - name: web-ui
+      protocol: TCP
       port: 5000
       targetPort: 5000
     - name: rtsp-video
