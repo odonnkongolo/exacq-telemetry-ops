@@ -140,8 +140,9 @@ resource "aws_instance" "cctv_server" {
   }
 }
 
-# 6. Output the Public IP address to your terminal
+# 6. Output the Public IP address to your terminal.
 output "simulator_live_url" {
   value       = "http://${aws_instance.cctv_server.public_ip}:5000"
   description = "Click this link in ~3 minutes to see your live cloud app!"
 }
+
