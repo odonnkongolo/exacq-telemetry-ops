@@ -1,0 +1,33 @@
+name: "🛑 Destroy Cloud Infrastructure"
+
+on:
+  workflow_dispatch: # Creates a manual trigger button in GitHub
+
+jobs:
+  terraform-destroy:
+    name: "Tear Down AWS Resources"
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./env-aws-cloud
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: ☁️ Setup Terraform Engine
+        uses: hashicorp/setup-terraform@v3
+
+      - name: 🔐 Authenticate with AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+
+      - name: 🏗️ Terraform Init
+        run: terraform init
+
+      - name: 🔥 Terraform Destroy
+        run: terraform destroy -auto-approve
