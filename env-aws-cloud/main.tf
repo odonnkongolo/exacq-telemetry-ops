@@ -33,6 +33,13 @@ resource "aws_security_group" "cctv_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] 
   }
+  # Allow Grafana Telemetry Dashboard
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   # Allow RTSP Video Streaming traffic
   ingress {
@@ -125,6 +132,7 @@ resource "aws_instance" "cctv_server" {
               kubectl apply -f ./env-kubernetes/simulator-deployment.yaml
               kubectl apply -f ./env-kubernetes/simulator-service.yaml
               kubectl apply -f ./env-kubernetes/observability/prometheus.yaml  # -----  Prometheus (Observability Feature File) installed
+              kubectl apply -f ./env-kubernetes/observability/grafana.yml      # -----  Grafana (Observability Feature File) installed
               EOF
 
   tags = {
