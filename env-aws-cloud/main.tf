@@ -5,6 +5,15 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  # --- TELL TERRAFORM TO USE THE CLOUD VAULT ---
+  backend "s3" {
+    bucket         = "exacq-tf-state-odon-2026"
+    key            = "exacq-telemetry/terraform.tfstate"
+    region         = "eu-west-1"
+    dynamodb_table = "terraform-state-lock"
+    encrypt        = true
+  }
 }
 
 # 1. The Cloud Provider
