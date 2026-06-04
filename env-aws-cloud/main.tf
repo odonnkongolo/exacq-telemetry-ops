@@ -11,7 +11,7 @@ terraform {
     bucket         = "exacq-tf-state-odon-2026"
     key            = "exacq-telemetry/terraform.tfstate"
     region         = "eu-west-1"
-    dynamodb_table = "terraform-state-lock"
+    use_lockfile   = true
     encrypt        = true
   }
 }
