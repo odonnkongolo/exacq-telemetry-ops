@@ -47,4 +47,4 @@ Once deployed, extract the public IP from the GitHub Actions Terraform log outpu
 Navigate to the GitHub Actions tab, select `🛑 Destroy Cloud Infrastructure`, and execute the manual run to terminate all billable AWS resources.
 
 ---
-*Engineered for scale, security, and absolute automation.*
+*Engineered for scale, security, and absolute automation - Odon Nkongolo*
