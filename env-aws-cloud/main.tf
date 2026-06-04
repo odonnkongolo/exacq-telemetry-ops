@@ -124,6 +124,7 @@ resource "aws_instance" "cctv_server" {
               kubectl create configmap camera-config --from-file=./src-camera-simulator/cameras.conf
               kubectl apply -f ./env-kubernetes/simulator-deployment.yaml
               kubectl apply -f ./env-kubernetes/simulator-service.yaml
+              kubectl apply -f ./env-kubernetes/observability/prometheus.yaml  # -----  Prometheus (Observability Feature File) installed
               EOF
 
   tags = {
