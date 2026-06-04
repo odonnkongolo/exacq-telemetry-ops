@@ -4,6 +4,11 @@ on:
   push:
     branches: [ "main" ]
 
+# Opt into Node.js 24 to address Node.js 20 deprecation warnings.
+# See: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   # ==========================================
   # STAGE 1: THE SECURITY GATE
