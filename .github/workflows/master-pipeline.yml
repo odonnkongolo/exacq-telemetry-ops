@@ -4,11 +4,6 @@ on:
   push:
     branches: [ "main" ]
 
-# Opt into Node.js 24 to address Node.js 20 deprecation warnings.
-# See: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   # ==========================================
   # STAGE 1: THE SECURITY GATE
@@ -18,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🐳 Build Simulator Image (Local CI Cache)
         run: docker build -t cctv-simulator:ci-test ./src-camera-simulator
@@ -48,13 +43,13 @@ jobs:
 
     steps:
       - name: 📥 Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: ☁️ Setup Terraform Engine
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
 
       - name: 🔐 Authenticate with AWS
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
